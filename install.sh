@@ -1,5 +1,11 @@
 #!/bin/bash
 . deps/functions.sh
+
+#PROTON_VERSION="8.0"
+#PROTON_ID="2348590"
+#RUNTIME_VERSION="3.0"
+#RUNTIME_ID="1628350"
+#RUMTIME_NAME="sniper"
 PROTON_VERSION="7.0"
 PROTON_ID="1887720"
 RUNTIME_VERSION="2.0"
@@ -13,6 +19,21 @@ FF7_LIBRARY=$(getSteamLibrary 39140 || echo "NONE")
 XDG_DESKTOP_DIR=$(xdg-user-dir DESKTOP)
 XDG_DATA_HOME="${XDG_DATA_HOME:=${HOME}/.local/share}"
 IS_STEAMOS=$(grep -qi "SteamOS" /etc/os-release && echo true || echo false)
+
+shopt -s nullglob
+compat_tools_d=(${XDG_DATA_HOME}/Steam/compatibilitytools.d/*)
+echo ${compat_tools_d[@]}
+
+args=$(build_kdialog_compat_radio ${XDG_DATA_HOME}/Steam/compatibilitytools.d/*)
+echo "${args}"
+kdialog --radiolist "Select compatibility tool" $args
+
+
+# for ((i = 0; i <${#compat_tools_d[@]}; i++)); do
+#   echo "${compat_tools_d[$i]##*/} $(( $i + 1 ))"
+# done
+
+exit 0
 
 echo "" > "7thDeck.log"
 exec > >(tee -ia "7thDeck.log") 2>&1

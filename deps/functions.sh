@@ -88,3 +88,12 @@ promptDirectory() {
     echo $(dialog --dselect "${HOME}" 10 60 --stdout)
   fi
 }
+
+build_kdialog_compat_radio() {
+  local cmd_options=("$@")
+  local cmd_arguments=""
+  for ((i = 0; i <${#cmd_options[@]}; i++ )); do
+    cmd_arguments+=" ${cmd_options[i]##*/} ${cmd_options[i]##*/} off"
+  done
+  echo $cmd_arguments
+}
